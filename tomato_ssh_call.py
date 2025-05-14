@@ -16,7 +16,7 @@ def run_remote_script(host, username, password, script):
     client.connect(host, username=username, password=password)
     print(f"Connected to {host}")
 
-    stdin, stdout, stderr = client.exec_command(f"python3 {script}")
+    stdin, stdout, stderr = client.exec_command(f"sudo python3 {script}")
     print(f"Script ran")
 
     for line in stdout:
