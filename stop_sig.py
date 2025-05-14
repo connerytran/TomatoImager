@@ -19,7 +19,7 @@ def stop_remote_script(host, username, password, script):
     client.connect(host, username=username, password=password)
     print(f"Connected to {host}")
 
-    stdin, stdout, stderr = client.exec_command(f"mkdir {stop_path}")
+    stdin, stdout, stderr = client.exec_command(f"touch {stop_path}")
     print(f"Stopping script")
 
     client.close()
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
   try:
     for host in pi_hosts:
-      run_remote_script(host, pi_user, pi_password, script_path)
+      stop_remote_script(host, pi_user, pi_password, script_path)
     print("Attempt finished.")
   except KeyboardInterrupt:
     print("Stopping now.")
