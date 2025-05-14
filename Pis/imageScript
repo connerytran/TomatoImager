@@ -4,8 +4,8 @@ from datetime import datetime
 from picamera2 import Picamera2, Preview
 import os
 
-photo_dir = '/home/tomatostaker/TomatoImager/Pis/pics/'
-tuning_file_path = '/home/tomatostaker/TomatoImager/Pis/Arducam-477P-Pi5.json'
+photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
+tuning_file_path = '/home/tomato-imager/TomatoImager/Pis/Arducam-477P-Pi5.json'
 stop_path = '/tmp/stop.signal'
 tuning = Picamera2.load_tuning_file(tuning_file_path)
 picture_interval = 2

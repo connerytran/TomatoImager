@@ -5,9 +5,9 @@ pi_hosts = [
   "10.152.44.200"
 ]
 
-pi_user = "tomatostaker"
+pi_user = "tomato-imager"
 pi_password = "makerspace"
-script_path = "/home/tomatostaker/TomatoImager/Pis/imageScript"
+script_path = "/home/tomato-imager/TomatoImager/Pis/imageScript"
 
 def run_remote_script(host, username, password, script):
   try:
