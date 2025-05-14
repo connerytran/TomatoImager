@@ -33,6 +33,7 @@ def main():
             take_picture(cam)
             time.sleep(picture_interval)
             if os.path.exists(stop_path):
+              os.remove(stop_path)
               break
         cam.stop()
         print("Script ended")
