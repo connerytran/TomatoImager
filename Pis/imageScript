@@ -1,0 +1,39 @@
+
+import time
+from datetime import datetime
+from picamera2 import Picamera2, Preview
+
+photo_dir = '/home/tomatostaker/TomatoImager/Pis/pics/'
+tuning_file_path = '/home/tomatostaker/TomatoImager/Pis/Arducam-477P-Pi5.json'
+tuning = Picamera2.load_tuning_file(tuning_file_path)
+picture_interval = 2
+shutter_speed = 1000
+iso = 30.0
+exposure = 0
+    
+
+def take_picture(cam):
+    """Takes the pictures"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    cam.capture_file(f"{photo_dir}image_{timestamp}.jpg")
+
+
+def main():
+    """Main function"""
+    cam = Picamera2(tuning=tuning)
+    config = cam.create_still_configuration()
+    cam.configure(config)
+    cam.set_controls({"ExposureTime": shutter_speed, "AnalogueGain": iso, "ExposureValue": exposure })
+    cam.start()
+
+    try:
+        while True:
+            take_picture(cam)
+            time.sleep(picture_interval)
+    except KeyboardInterrupt:
+        cam.stop()
+        
+
+if __name__ == "__main__":
+    main()
+
