@@ -2,9 +2,11 @@
 import time
 from datetime import datetime
 from picamera2 import Picamera2, Preview
+import os
 
 photo_dir = '/home/tomatostaker/TomatoImager/Pis/pics/'
 tuning_file_path = '/home/tomatostaker/TomatoImager/Pis/Arducam-477P-Pi5.json'
+stop_path = '/tmp/stop.signal'
 tuning = Picamera2.load_tuning_file(tuning_file_path)
 picture_interval = 2
 shutter_speed = 1000
@@ -30,6 +32,10 @@ def main():
         while True:
             take_picture(cam)
             time.sleep(picture_interval)
+            if os.path.exists(stop_path):
+              break
+        cam.stop()
+        print("Script ended")
     except KeyboardInterrupt:
         cam.stop()
         
