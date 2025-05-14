@@ -44,7 +44,6 @@ if __name__ == "__main__":
   try:
     for host in pi_hosts:
       run_remote_script(host, pi_user, pi_password, script_path)
-    print("Attempt finished.")
   except KeyboardInterrupt:
     print("Stopping now.")
 
