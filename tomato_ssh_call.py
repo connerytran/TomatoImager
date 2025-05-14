@@ -19,12 +19,12 @@ def run_remote_script(host, username, password, script):
     stdin, stdout, stderr = client.exec_command(f"python3 {script}")
     print(f"Script ran")
 
-    # for line in stdout:
-    #   print(f"{line.strip()}")
+    for line in stdout:
+      print(f"{line.strip()}")
     
-    # error_output = stderr.read().decode('utf-8').strip()
-    # if error_output:
-    #   print(f"Errors: {error_output}")
+    error_output = stderr.read().decode('utf-8').strip()
+    if error_output:
+      print(f"Errors: {error_output}")
 
     client.close()
     return True
