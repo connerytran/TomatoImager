@@ -1,7 +1,7 @@
 
 import time
 from datetime import datetime
-from picamera2 import Picamera2, Preview
+from picamera2 import Picamera2
 import os
 
 photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
@@ -22,11 +22,20 @@ def take_picture(cam):
 
 def main():
     """Main function"""
-    cam = Picamera2(tuning=tuning)
-    config = cam.create_still_configuration()
-    cam.configure(config)
-    cam.set_controls({"ExposureTime": shutter_speed, "AnalogueGain": iso, "ExposureValue": exposure })
-    cam.start()
+
+    ## Sets up first camera
+    cam1 = Picamera2(camera_num=0, tuning=tuning)
+    config = cam1.create_still_configuration()
+    cam1.configure(config)
+    cam1.set_controls({"ExposureTime": shutter_speed, "AnalogueGain": iso, "ExposureValue": exposure })
+    cam1.start()
+
+    ## Sets up second camera
+    cam2 = Picamera2(camera_num=1, tuning=tuning)
+    config = cam2.create_still_configuration()
+    cam2.configure(config)
+    cam2.set_controls({"ExposureTime": shutter_speed, "AnalogueGain": iso, "ExposureValue": exposure })
+    cam2.start()
 
     try:
         while True:
