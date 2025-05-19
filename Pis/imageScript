@@ -39,15 +39,18 @@ def main():
 
     try:
         while True:
-            take_picture(cam)
+            take_picture(cam1)
+            take_picture(cam2)
             time.sleep(picture_interval)
             if os.path.exists(stop_path):
               os.remove(stop_path)
               break
-        cam.stop()
+        cam1.stop()
+        cam2.stop()
         print("Script ended")
     except KeyboardInterrupt:
-        cam.stop()
+        cam1.stop()
+        cam2.stop()
         
 
 if __name__ == "__main__":
