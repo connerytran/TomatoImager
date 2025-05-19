@@ -12,7 +12,7 @@ picture_interval = .2
 shutter_speed = 1000
 iso = 30.0
 exposure = 0
-    
+
 
 def take_picture(cam):
     """Takes the pictures"""

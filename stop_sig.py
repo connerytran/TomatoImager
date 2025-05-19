@@ -1,15 +1,31 @@
 
-
 import paramiko
+import os
+from dotenv import load_dotenv
 
-pi_hosts = [
-  "10.152.44.200"
-]
+load_dotenv()
 
-pi_user = "tomato-imager"
-pi_password = "makerspace"
-script_path = "/home/tomato-imager/TomatoImager/Pis/imageScript"
-stop_path = '/tmp/stop.signal'
+pi_user = os.getenv('pi_user')
+pi_password = os.getenv('pi_password')
+script_path = os.getenv('script_path')
+stop_path = os.getenv('stop_path')
+num_of_pis = os.getenv('num_of_pis')
+pi_hosts = []
+
+
+## Reads the num_of_pis from env as an integer
+if num_of_pis:
+  try:
+    num_of_pis = int(num_of_pis)
+    print(num_of_pis)
+  except ValueError:
+    print("Invalid num_of_pis in .env")
+
+## Reads in each pi to the pi_hosts array
+for i in range(num_of_pis):
+  host = os.getenv(f'pi_host_{i}')
+  if host:
+    pi_hosts.append(host)
 
 
 def stop_remote_script(host, username, password, script):
