@@ -56,7 +56,7 @@ if __name__ == "__main__":
   try:
     for host in pi_hosts:
       stop_remote_script(host, pi_user, pi_password, script_path)
-    print("Script stopped.")
+      print(f"Script stopped on {host}.")
   except KeyboardInterrupt:
     print("Stopping now.")
 
