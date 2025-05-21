@@ -27,7 +27,7 @@ def intialize_cam(cam_idx):
     cap = cv2.VideoCapture(cam_idx)
     if not cap.isOpened():
         print('Cannot open camera')
-        exit()
+        return None
 
     set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast)
 
@@ -82,15 +82,20 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
     cap.set(cv2.CAP_PROP_CONTRAST, contrast)
 
 
-if __name__ == '__main__':
-    
+
+
+
+def main():
 
     try:
-        
+        caps_array = []
         # Initializes all cams
         for cam_idx in range(0, num_cams * 2, 2):
-            caps_array = []
-            caps_array.append(intialize_cam(cam_idx))
+            cap = intialize_cam(cam_idx)
+            if cap is not None:
+                caps_array.append(cap)
+            else:
+                print(f'Unable to initialize cam {cam_idx}')
 
         
         while True:
@@ -109,5 +114,11 @@ if __name__ == '__main__':
     finally:
         for cap in caps_array:
             cap.release()
+
+
+
+
+if __name__ == '__main__':
+    main()
 
 
