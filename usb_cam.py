@@ -22,7 +22,6 @@ def intialize_cam(cam_idx):
 
     Params:
     cam_idx (int): idx for accessing each of the cameras
-
     """
 
     cap = cv2.VideoCapture(cam_idx)
@@ -42,7 +41,6 @@ def take_picture(cap):
 
     Params:
     cap (cv2 VideoCapture): capture object for taking pictures
-
     """
     
     ret, frame = cap.read()
@@ -58,7 +56,6 @@ def take_picture(cap):
 
 
 def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
-
     """
     Given the params and capture obj, will set the desired controls for the cap
 
@@ -70,7 +67,6 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
     gain
     brihgtness
     contrast
-
     """
 
     # cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
