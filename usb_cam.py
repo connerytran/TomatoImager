@@ -7,7 +7,7 @@ from datetime import datetime
 photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
 stop_path = '/tmp/stop.signal'
 
-num_cams = 2
+num_cams = 3
 
 width = 4032
 height = 3040
@@ -111,7 +111,7 @@ def main():
         
         while True:
             
-            for cap, cam_idx in enumerate(caps_array):
+            for cam_idx, cap in enumerate(caps_array):
                 take_picture(cap, cam_idx)
             
             if os.path.exists(stop_path):

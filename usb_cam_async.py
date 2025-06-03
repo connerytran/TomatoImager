@@ -7,7 +7,7 @@ from datetime import datetime
 photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
 stop_path = '/tmp/stop.signal'
 
-num_cams = 2
+num_cams = 3
 
 width = 4032
 height = 3040
@@ -43,23 +43,35 @@ async def take_picture(cap, cam_idx):
     Params:
     cap (cv2 VideoCapture): capture object for taking pictures
     """
-    
-    while True:
-        print(f"Camera {cam_idx} taking pic")
-        start_time = time.perf_counter()
-        ret, frame = await asyncio.to_thread(cap.read) # use background thread to run the I/O
-        if not ret:
-            print("Cannot recieve frame.")
-        else:
-            end_time = time.perf_counter()
-            duration = end_time - start_time
-            print(f"Camera {cam_idx} pic taken in {duration} seconds")
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            await asyncio.to_thread(save_picture, frame, timestamp, cam_idx)
+    try:
+        start = time.perf_counter()
+        while True:
+            print(f"Camera {cam_idx} taking pic")
+            start_time = time.perf_counter()
+            ret, frame = await asyncio.to_thread(cap.read) # use background thread to run the I/O
+            if not ret:
+                print("Cannot recieve frame.")
+            else:
+                end_time = time.perf_counter()
+                duration = end_time - start_time
+                print(f"Camera {cam_idx} pic taken in {duration} seconds")
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                # save_picture(frame, timestamp, cam_idx)
+                await asyncio.to_thread(save_picture, frame, timestamp, cam_idx)
 
-        if os.path.exists(stop_path):
-            os.remove(stop_path)
-            return
+            if os.path.exists(stop_path):
+                os.remove(stop_path)
+                return
+            
+            end = time.perf_counter()
+            
+            if end - start > 20:
+                return
+    
+    except KeyboardInterrupt:
+        return
+    finally:
+        return
 
 
 def save_picture(frame, timestamp, cam_idx):
@@ -67,8 +79,8 @@ def save_picture(frame, timestamp, cam_idx):
     """
     print(f"Camera {cam_idx} saving pic")
     start_time = time.perf_counter()
-    # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
-    cv2.imwrite(f'{photo_dir}image_{timestamp}.jpg', frame)
+    imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
+    cv2.imwrite(f'{photo_dir}image_{timestamp}_cam-{cam_idx}.jpg', frame, imwrite_params)
     end_time = time.perf_counter()
     duration = end_time - start_time
     print(f"Camera {cam_idx} pic saved in {duration} seconds")
