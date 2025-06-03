@@ -1,6 +1,7 @@
 
 
 import cv2
+import time
 import os
 from datetime import datetime
 photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
@@ -35,7 +36,7 @@ def intialize_cam(cam_idx):
 
 
 
-def take_picture(cap):
+def take_picture(cap, cam_idx):
     """
     Given the camera, it will take a picture and save it to a folder
 
@@ -43,14 +44,24 @@ def take_picture(cap):
     cap (cv2 VideoCapture): capture object for taking pictures
     """
     
+    print(f"Camera {cam_idx} taking pic")
+    start_time = time.perf_counter()
     ret, frame = cap.read()
     if not ret:
         print("Cannot recieve frame.")
     else:
+        end_time = time.perf_counter()
+        duration = end_time - start_time
+        print(f"Camera {cam_idx} pic taken in {duration} seconds")
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
+        start_time = time.perf_counter()
         # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
         cv2.imwrite(f'{photo_dir}image_{timestamp}.jpg', frame)
+        end_time = time.perf_counter()
+        duration = end_time - start_time
+        print(f"Camera {cam_idx} pic saved in {duration} seconds")
+
 
 
 
@@ -100,8 +111,8 @@ def main():
         
         while True:
             
-            for cap in caps_array:
-                take_picture(cap)
+            for cap, cam_idx in enumerate(caps_array):
+                take_picture(cap, cam_idx)
             
             if os.path.exists(stop_path):
               os.remove(stop_path)

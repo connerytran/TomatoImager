@@ -1,5 +1,6 @@
 
 import asyncio
+import time
 import cv2
 import os
 from datetime import datetime
@@ -35,7 +36,7 @@ def intialize_cam(cam_idx):
 
 
 
-async def take_picture(cap):
+async def take_picture(cap, cam_idx):
     """
     Given the camera, it will take a picture and save it to a folder
 
@@ -44,23 +45,34 @@ async def take_picture(cap):
     """
     
     while True:
+        print(f"Camera {cam_idx} taking pic")
+        start_time = time.perf_counter()
         ret, frame = await asyncio.to_thread(cap.read) # use background thread to run the I/O
         if not ret:
             print("Cannot recieve frame.")
         else:
+            end_time = time.perf_counter()
+            duration = end_time - start_time
+            print(f"Camera {cam_idx} pic taken in {duration} seconds")
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            await asyncio.to_thread(save_picture, frame, timestamp)
+            await asyncio.to_thread(save_picture, frame, timestamp, cam_idx)
 
         if os.path.exists(stop_path):
             os.remove(stop_path)
             return
 
 
-def save_picture(frame, timestamp):
+def save_picture(frame, timestamp, cam_idx):
     """
     """
+    print(f"Camera {cam_idx} saving pic")
+    start_time = time.perf_counter()
     # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
     cv2.imwrite(f'{photo_dir}image_{timestamp}.jpg', frame)
+    end_time = time.perf_counter()
+    duration = end_time - start_time
+    print(f"Camera {cam_idx} pic saved in {duration} seconds")
+    
 
 
 def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
@@ -105,7 +117,7 @@ async def main():
                 print(f'Unable to initialize cam {cam_idx}')
         
         # create coroutine object array with take_picutre async function for each camera
-        coroutine_objs = [take_picture(cap) for cap in caps_array]
+        coroutine_objs = [take_picture(cap, cam_idx) for cam_idx, cap in enumerate(caps_array)]
         # turn them into tasks by awaiting them
         await asyncio.gather(*coroutine_objs)
     
