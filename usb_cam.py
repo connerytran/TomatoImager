@@ -53,7 +53,7 @@ def take_picture(cap, cam_idx):
         end_time = time.perf_counter()
         duration = end_time - start_time
         print(f"Camera {cam_idx} pic taken in {duration} seconds")
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now()
 
         start_time = time.perf_counter()
         # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
@@ -108,7 +108,8 @@ def main():
             else:
                 print(f'Unable to initialize cam {cam_idx}')
 
-        
+
+        start = time.perf_counter()
         while True:
             
             for cam_idx, cap in enumerate(caps_array):
@@ -117,6 +118,10 @@ def main():
             if os.path.exists(stop_path):
               os.remove(stop_path)
               break
+
+            end = time.perf_counter()
+            if end - start > 10:
+                return
     
     except KeyboardInterrupt:
         for cap in caps_array:
