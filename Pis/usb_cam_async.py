@@ -4,6 +4,9 @@ import time
 import cv2
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 photo_dir = os.getenv('photo_dir')
 stop_path = os.getenv('stop_path')
