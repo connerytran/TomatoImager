@@ -7,13 +7,13 @@ from datetime import datetime
 
 photo_dir = os.getenv('photo_dir')
 stop_path = os.getenv('stop_path')
-num_of_cams = os.getenv('num_of_cams')
-width = os.getenv('width')
-height = os.getenv('height')
-exposure = os.getenv('exposure')
-gain = os.getenv('gain')
-brightness = os.getenv('brightness')
-contrast = os.getenv('contrast')
+num_of_cams = int(os.getenv('num_of_cams'))
+width = int(os.getenv('width'))
+height = int(os.getenv('height'))
+exposure = int(os.getenv('exposure'))
+gain = int(os.getenv('gain'))
+brightness = int(os.getenv('brightness'))
+contrast = int(os.getenv('contrast'))
 
 
 def intialize_cam(cam_idx):
