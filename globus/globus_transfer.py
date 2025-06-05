@@ -35,6 +35,7 @@ task_data = globus_sdk.TransferData(
 task_data.add_item(
     "/home/tomato-imager/TomatoImager/Pis/pics/",  # source
     "C:/Users/conne/makerspace/tomato-imager",  # dest
+    recursive=True  # directory transfer
 )
 
 # submit, getting back the task ID

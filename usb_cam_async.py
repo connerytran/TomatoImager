@@ -59,7 +59,6 @@ async def take_picture(cap, cam_idx):
                 
 
             if os.path.exists(stop_path):
-                os.remove(stop_path)
                 return
             
             # end = time.perf_counter()
@@ -81,7 +80,6 @@ def save_picture(frame, cam_idx):
     imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
     end_time = time.perf_counter()
     duration = end_time - start_time    
-    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     timestamp = datetime.now()
     cv2.imwrite(f'{photo_dir}image_{timestamp}_cam-{cam_idx}.jpg', frame, imwrite_params)
 
@@ -95,13 +93,13 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
     Given the params and capture obj, will set the desired controls for the cap
 
     Params:
-    cap (cv2 VideoCapture):
-    width
-    height
-    exposure
-    gain
-    brihgtness
-    contrast
+        cap (cv2 VideoCapture):
+        width
+        height
+        exposure
+        gain
+        brihgtness
+        contrast
     """
     # cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
@@ -143,6 +141,8 @@ async def main():
     finally:
         for cap in caps_array:
             cap.release()
+        if os.path.exists(stop_path):
+            os.remove(stop_path)
 
 
 
