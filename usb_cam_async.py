@@ -44,7 +44,7 @@ async def take_picture(cap, cam_idx):
     cap (cv2 VideoCapture): capture object for taking pictures
     """
     try:
-        start = time.perf_counter()
+        # start = time.perf_counter()
         while True:
             print(f"Camera {cam_idx} taking pic")
             start_time = time.perf_counter()
@@ -55,8 +55,6 @@ async def take_picture(cap, cam_idx):
                 end_time = time.perf_counter()
                 duration = end_time - start_time
                 print(f"Camera {cam_idx} pic taken in {duration} seconds")
-                # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                # save_picture(frame, timestamp, cam_idx)
                 await asyncio.to_thread(save_picture, frame, cam_idx)
                 
 
@@ -64,10 +62,10 @@ async def take_picture(cap, cam_idx):
                 os.remove(stop_path)
                 return
             
-            end = time.perf_counter()
+            # end = time.perf_counter()
             
-            if end - start > 10:
-                return
+            # if end - start > 10:
+            #     return
     
     except KeyboardInterrupt:
         return
