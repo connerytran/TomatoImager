@@ -4,17 +4,16 @@ import time
 import cv2
 import os
 from datetime import datetime
-photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
-stop_path = '/tmp/stop.signal'
 
-num_cams = 3
-
-width = 4032
-height = 3040
-exposure = 1
-gain = 100
-brightness = 0
-contrast = 20
+photo_dir = os.getenv('photo_dir')
+stop_path = os.getenv('stop_path')
+num_of_cams = os.getenv('num_of_cams')
+width = os.getenv('width')
+height = os.getenv('height')
+exposure = os.getenv('exposure')
+gain = os.getenv('gain')
+brightness = os.getenv('brightness')
+contrast = os.getenv('contrast')
 
 
 def intialize_cam(cam_idx):
@@ -122,7 +121,7 @@ async def main():
     try:
         caps_array = []
         # Initializes all cams and adds them to caps_array
-        for cam_idx in range(0, num_cams * 2, 2):
+        for cam_idx in range(0, num_of_cams * 2, 2):
             cap = intialize_cam(cam_idx)
             if cap is not None:
                 caps_array.append(cap)
