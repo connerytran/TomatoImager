@@ -37,8 +37,9 @@ def run_remote_script(host, username, password, script):
     stdin, stdout, stderr = client.exec_command(f"sudo python3 {script}")
     print(f"Script on {host} ran")
 
-    # for line in stdout:
-    #   print(f"{line.strip()}")
+    for line in stdout:
+      output = line.strip()
+      # print(f"{output()}")
     
     # error_output = stderr.read().decode('utf-8').strip()
     # if error_output:

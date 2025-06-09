@@ -26,7 +26,7 @@ transfer_client = globus_sdk.TransferClient(
 
 # Replace these with your own collection UUIDs
 source_collection_id = "472492cd-4225-11f0-901e-0256b1e82d1f"
-dest_collection_id = "eec34ef0-dffb-11ef-9cae-33056a2963dc"
+dest_collection_id = "2bc13c08-5403-4a39-9331-afc6256a2bee"
 
 # create a Transfer task consisting of one or more items
 task_data = globus_sdk.TransferData(
@@ -34,7 +34,7 @@ task_data = globus_sdk.TransferData(
 )
 task_data.add_item(
     "/home/tomato-imager/TomatoImager/Pis/pics/",  # source
-    "C:/Users/conne/makerspace/tomato-imager",  # dest
+    "/My Drive/Makerspace/TomatoImager/pics/",  # dest
     recursive=True  # directory transfer
 )
 
