@@ -4,17 +4,19 @@ import cv2
 import time
 import os
 from datetime import datetime
-photo_dir = '/home/tomato-imager/TomatoImager/Pis/pics/'
-stop_path = '/tmp/stop.signal'
+from dotenv import load_dotenv
 
-num_cams = 3
+load_dotenv()
 
-width = 4032
-height = 3040
-exposure = 1
-gain = 100
-brightness = 0
-contrast = 20
+photo_dir = os.getenv('photo_dir')
+stop_path = os.getenv('stop_path')
+num_of_cams = int(os.getenv('num_of_cams'))
+width = int(os.getenv('width'))
+height = int(os.getenv('height'))
+exposure = int(os.getenv('exposure'))
+gain = int(os.getenv('gain'))
+brightness = int(os.getenv('brightness'))
+contrast = int(os.getenv('contrast'))
 
 
 def intialize_cam(cam_idx):
@@ -57,7 +59,7 @@ def take_picture(cap, cam_idx):
 
         start_time = time.perf_counter()
         # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
-        cv2.imwrite(f'{photo_dir}image_{timestamp}.jpg', frame)
+        cv2.imwrite(f'{photo_dir}image_{timestamp}_cam{cam_idx}.jpg', frame)
         end_time = time.perf_counter()
         duration = end_time - start_time
         print(f"Camera {cam_idx} pic saved in {duration} seconds")
@@ -101,7 +103,7 @@ def main():
     try:
         caps_array = []
         # Initializes all cams
-        for cam_idx in range(0, num_cams * 2, 2):
+        for cam_idx in range(0, num_of_cams * 2, 2):
             cap = intialize_cam(cam_idx)
             if cap is not None:
                 caps_array.append(cap)
@@ -109,7 +111,7 @@ def main():
                 print(f'Unable to initialize cam {cam_idx}')
 
 
-        start = time.perf_counter()
+        # start = time.perf_counter()
         while True:
             
             for cam_idx, cap in enumerate(caps_array):
@@ -119,9 +121,9 @@ def main():
               os.remove(stop_path)
               break
 
-            end = time.perf_counter()
-            if end - start > 10:
-                return
+            # end = time.perf_counter()
+            # if end - start > 10:
+            #     return
     
     except KeyboardInterrupt:
         for cap in caps_array:
