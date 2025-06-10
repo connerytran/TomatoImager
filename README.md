@@ -1,5 +1,5 @@
 # TomatoImager
-
+The TomatoImager is a project focused on assisting farmers with the farming of tomatoes. How this imager works is by hooking up raspberry pis and cameras to a tractor boom in order to take many pictures of tomato plants as the tractor drives by. With these pictures we plan to then detect weight, size, yield, and disease. This can be marked on a map for the farmers to easily locate and identify different plants.
 
 
 ## Installation
