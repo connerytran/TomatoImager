@@ -2,7 +2,10 @@
 import os
 import globus_sdk
 from globus_sdk.scopes import TransferScopes
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 CLIENT_ID = os.getenv('globus_client_id')
 auth_client = globus_sdk.NativeAppAuthClient(CLIENT_ID)
@@ -33,7 +36,7 @@ task_data = globus_sdk.TransferData(
     source_endpoint=source_collection_id, destination_endpoint=dest_collection_id
 )
 task_data.add_item(
-    "/home/tomato-imager/TomatoImager/Pis/pics/",  # source
+    "/home/tomato-imager/TomatoImager/pics/",  # source
     "/My Drive/Makerspace/TomatoImager/pics/",  # dest
     recursive=True  # directory transfer
 )
