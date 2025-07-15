@@ -41,7 +41,7 @@ def run_remote_script(host, username, password, script):
 
     # for line in stdout:
     #   output = line.strip()
-      # print(f"{output()}")
+    #   print(f"{output}")
     
     # error_output = stderr.read().decode('utf-8').strip()
     # if error_output:

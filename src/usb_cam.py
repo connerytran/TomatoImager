@@ -59,7 +59,7 @@ def take_picture(cap, cam_idx):
 
         start_time = time.perf_counter()
         # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
-        cv2.imwrite(f'{photo_dir}image_{timestamp}_cam{cam_idx}.jpg', frame)
+        cv2.imwrite(f'{photo_dir}cam{cam_idx}_{timestamp}.jpg', frame)
         end_time = time.perf_counter()
         duration = end_time - start_time
         print(f"Camera {cam_idx} pic saved in {duration} seconds")
