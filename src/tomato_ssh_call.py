@@ -34,11 +34,13 @@ def run_remote_script(host, username, password, script):
     client.connect(host, username=username, password=password)
     print(f"Connected to {host}")
 
-    stdin, stdout, stderr = client.exec_command(f"sudo python3 {script}")
+    # stdin, stdout, stderr = client.exec_command(f"sudo python3 {script}")
+    background_command = f"nohup sudo python3 {script} > /dev/null 2>&1 &"
+    stdin, stdout, stderr = client.exec_command(background_command)
     print(f"Script on {host} ran")
 
-    for line in stdout:
-      output = line.strip()
+    # for line in stdout:
+    #   output = line.strip()
       # print(f"{output()}")
     
     # error_output = stderr.read().decode('utf-8').strip()
