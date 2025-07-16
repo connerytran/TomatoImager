@@ -34,8 +34,8 @@ def globus_transfer():
 # globus transfer d4eb6d3e-4c86-11f0-a629-0affcfc1d1e5:/home/tomato-imager/TomatoImager/pics/ 2f7f6170-8d5c-11e9-8e6a-029d279f7e24:/rs1/shares/cals-research-station/clinton/tomato-imager/pi3-pics/ --recursive --label "HAWKEYE_upload"
 
     command = [
-        "globus", "transfer", "{PI_ENDPOINT_ID}:{SOURCE_DIR}", 
-        "{DEST_ENDPOINT_ID}:{DEST_DIR}", 
+        "globus", "transfer", f"{PI_ENDPOINT_ID}:{SOURCE_DIR}", 
+        f"{DEST_ENDPOINT_ID}:{DEST_DIR}", 
         "--recursive", "--label", transfer_label
     ]
 
