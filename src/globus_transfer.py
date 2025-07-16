@@ -36,7 +36,7 @@ def globus_transfer():
     command = [
         "globus", "transfer", f"{PI_ENDPOINT_ID}:{SOURCE_DIR}", 
         f"{DEST_ENDPOINT_ID}:{DEST_DIR}", 
-        "--recursive", "--label", transfer_label
+        "--recursive", "--label", transfer_label, "--notify failed"
     ]
 
     separator = ' '
