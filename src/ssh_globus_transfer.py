@@ -8,6 +8,7 @@ load_dotenv()
 pi_user = os.getenv('pi_user')
 pi_password = os.getenv('pi_password')
 script_path = os.getenv('transfer_script_path')
+venv_path = os.getenv('venv_path')
 num_of_pis = os.getenv('num_of_pis')
 pi_hosts = []
 
@@ -34,18 +35,19 @@ def run_remote_script(host, username, password, script):
     client.connect(host, username=username, password=password)
     print(f"Connected to {host}")
 
-    # stdin, stdout, stderr = client.exec_command(f"sudo python3 {script}")
-    background_command = f"nohup sudo python3 {script} > /dev/null 2>&1 &"
-    stdin, stdout, stderr = client.exec_command(background_command)
+    # stdin, stdout, stderr = client.exec_command(f"{venv_path}")
+    stdin, stdout, stderr = client.exec_command(f"source {venv_path} && python3 {script}")
+    # background_command = f"nohup sudo python3 {script} > /dev/null 2>&1 &"
+    # stdin, stdout, stderr = client.exec_command(background_command)
     print(f"Script on {host} ran")
 
-    # for line in stdout:
-    #   output = line.strip()
-    #   print(f"{output}")
+    for line in stdout:
+      output = line.strip()
+      print(f"{output}")
     
-    # error_output = stderr.read().decode('utf-8').strip()
-    # if error_output:
-    #   print(f"Errors: {error_output}")
+    error_output = stderr.read().decode('utf-8').strip()
+    if error_output:
+      print(f"Errors: {error_output}")
 
     client.close()
     return True

@@ -39,6 +39,7 @@ def run_remote_script(host, username, password, script):
     stdin, stdout, stderr = client.exec_command(background_command)
     print(f"Script on {host} ran")
 
+
     # for line in stdout:
     #   output = line.strip()
     #   print(f"{output}")
