@@ -7,7 +7,7 @@ load_dotenv()
 
 pi_user = os.getenv('pi_user')
 pi_password = os.getenv('pi_password')
-script_path = os.getenv('image_script_path')
+script_path = os.getenv('transfer_script_path')
 num_of_pis = os.getenv('num_of_pis')
 pi_hosts = []
 
