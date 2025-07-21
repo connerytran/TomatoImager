@@ -17,7 +17,8 @@ exposure = int(os.getenv('exposure'))
 gain = int(os.getenv('gain'))
 brightness = int(os.getenv('brightness'))
 contrast = int(os.getenv('contrast'))
-
+timestamp = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+pic_num = 0
 
 def intialize_cam(cam_idx):
     """
@@ -45,7 +46,8 @@ def take_picture(cap, cam_idx):
     Params:
     cap (cv2 VideoCapture): capture object for taking pictures
     """
-    
+    global pic_num 
+
     print(f"Camera {cam_idx} taking pic")
     start_time = time.perf_counter()
     ret, frame = cap.read()
@@ -55,13 +57,14 @@ def take_picture(cap, cam_idx):
         end_time = time.perf_counter()
         duration = end_time - start_time
         print(f"Camera {cam_idx} pic taken in {duration} seconds")
-        timestamp = datetime.now()
+        # timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
         start_time = time.perf_counter()
         # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
-        cv2.imwrite(f'{photo_dir}cam{cam_idx}_{timestamp}.jpg', frame)
+        cv2.imwrite(f'{photo_dir}{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame)
         end_time = time.perf_counter()
         duration = end_time - start_time
+        pic_num += 1
         print(f"Camera {cam_idx} pic saved in {duration} seconds")
 
 
@@ -86,15 +89,18 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 3)
     cap.set(cv2.CAP_PROP_EXPOSURE, exposure)
 
-    cap.set(cv2.CAP_PROP_GAIN, gain)
+    # cap.set(cv2.CAP_PROP_GAIN, gain)
 
-    cap.set(cv2.CAP_PROP_BRIGHTNESS, brightness)
-    cap.set(cv2.CAP_PROP_CONTRAST, contrast)
+    # cap.set(cv2.CAP_PROP_BRIGHTNESS, brightness)
+    # cap.set(cv2.CAP_PROP_CONTRAST, contrast)
 
-
+    # v4l2-ctl --list-devices
+    # v4l2-ctl -d /dev/video2 --list-ctrls
+    # -menus
+    # v4l2-ctl -d /dev/video2 -c exposure_dynamic_framerate=0
 
 
 
@@ -111,7 +117,7 @@ def main():
                 print(f'Unable to initialize cam {cam_idx}')
 
 
-        # start = time.perf_counter()
+        start = time.perf_counter()
         while True:
             
             for cam_idx, cap in enumerate(caps_array):
@@ -121,9 +127,9 @@ def main():
               os.remove(stop_path)
               break
 
-            # end = time.perf_counter()
-            # if end - start > 10:
-            #     return
+            end = time.perf_counter()
+            if end - start > 10:
+                return
     
     except KeyboardInterrupt:
         for cap in caps_array:
