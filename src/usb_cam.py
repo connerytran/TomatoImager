@@ -89,7 +89,7 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 3)
+    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 3) # 3 is on, 1 is manual
     cap.set(cv2.CAP_PROP_EXPOSURE, exposure)
 
     # cap.set(cv2.CAP_PROP_GAIN, gain)
