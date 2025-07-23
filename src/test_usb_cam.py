@@ -117,7 +117,7 @@ def main():
                 print(f'Unable to initialize cam {cam_idx}')
 
 
-#        start = time.perf_counter()
+        start = time.perf_counter()
         while True:
             
             for cam_idx, cap in enumerate(caps_array):
@@ -127,9 +127,9 @@ def main():
               os.remove(stop_path)
               break
 
-#            end = time.perf_counter()
-#            if end - start > 10:
-#                return
+            end = time.perf_counter()
+            if end - start > 10:
+                return
     
     except KeyboardInterrupt:
         for cap in caps_array:
