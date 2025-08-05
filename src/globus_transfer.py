@@ -32,7 +32,7 @@ input("continue?")
 def globus_transfer(cam_idx, foldername):
     transfer_label = f"HAWKEYE_UPLOAD_{datetime.now()}"
     foldername += "/"
-    DEST_DIR += foldername + "pi-" + pi_id
+    DEST_DIR += foldername + pi_id + "/" + "cam" + cam_idx + "/" # foldername/pi-1/cam1/
 
     # Ensure the source directory exists before trying to transfer
     if not os.path.exists(SOURCE_DIR):
