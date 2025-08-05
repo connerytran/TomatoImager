@@ -46,13 +46,16 @@ def take_picture(cap, cam_idx):
     Params:
     cap (cv2 VideoCapture): capture object for taking pictures
     """
-    global pic_num 
-
+    global pic_num
+    global photo_dir
+    save_path = photo_dir
+    print(save_path)
     # creates the directories if not exist
-    photo_dir += f"cam{cam_idx}/"
-    if photo_dir:
-        os.makedirs(photo_dir, exist_ok=True)
+    save_path += f"cam{cam_idx}/"
+    if save_path:
+        os.makedirs(save_path, exist_ok=True)
 
+    print(save_path)
 
     print(f"Camera {cam_idx} taking pic")
     start_time = time.perf_counter()
@@ -66,7 +69,7 @@ def take_picture(cap, cam_idx):
         # timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
         start_time = time.perf_counter()
-        cv2.imwrite(f'{photo_dir}cam{cam_idx}/{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame) # pics/cam1/timestamp_cam1_
+        cv2.imwrite(f'{save_path}{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame) # pics/cam1/timestamp_cam1_
         end_time = time.perf_counter()
         duration = end_time - start_time
         pic_num += 1
