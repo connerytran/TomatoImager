@@ -21,9 +21,9 @@ if len(sys.argv) < 2:
     print("Error: No filename provided. Usage: python3 script.py <filename>")
     sys.exit(1)
 
-# Get the filename from the first command-line argument (sys.argv[0] is the script name)
 foldername = sys.argv[1]
-
+print(foldername)
+input("continue?")
 
 def globus_transfer():
     transfer_label = f"HAWKEYE_UPLOAD_{datetime.now()}"
