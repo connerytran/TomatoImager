@@ -60,7 +60,7 @@ def take_picture(cap, cam_idx):
         # timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
         start_time = time.perf_counter()
-        cv2.imwrite(f'{photo_dir}{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame)
+        cv2.imwrite(f'{photo_dir}cam{cam_idx}/{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame) # pics/cam1/timestamp_cam1_
         end_time = time.perf_counter()
         duration = end_time - start_time
         pic_num += 1
@@ -106,6 +106,10 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
 def main():
 
     try:
+        
+        if os.path.exists(stop_path):
+          os.remove(stop_path)
+
         caps_array = []
         # Initializes all cams
         for cam_idx in range(0, num_of_cams * 2, 2):
