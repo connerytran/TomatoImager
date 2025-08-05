@@ -48,6 +48,12 @@ def take_picture(cap, cam_idx):
     """
     global pic_num 
 
+    # creates the directories if not exist
+    photo_dir += f"cam{cam_idx}/"
+    if photo_dir:
+        os.makedirs(photo_dir, exist_ok=True)
+
+
     print(f"Camera {cam_idx} taking pic")
     start_time = time.perf_counter()
     ret, frame = cap.read()
