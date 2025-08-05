@@ -107,6 +107,10 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
 def main():
 
     try:
+        
+        if os.path.exists(stop_path):
+          os.remove(stop_path)
+          
         caps_array = []
         # Initializes all cams
         for cam_idx in range(0, num_of_cams * 2, 2):

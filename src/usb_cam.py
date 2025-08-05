@@ -60,7 +60,6 @@ def take_picture(cap, cam_idx):
         # timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
         start_time = time.perf_counter()
-        # imwrite_params = [cv2.IMWRITE_JPEG_QUALITY, 100]
         cv2.imwrite(f'{photo_dir}{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame)
         end_time = time.perf_counter()
         duration = end_time - start_time
@@ -107,6 +106,10 @@ def set_cam_ctrls(cap, width, height, exposure, gain, brightness, contrast):
 def main():
 
     try:
+        
+        if os.path.exists(stop_path):
+          os.remove(stop_path)
+
         caps_array = []
         # Initializes all cams
         for cam_idx in range(0, num_of_cams * 2, 2):
@@ -117,7 +120,6 @@ def main():
                 print(f'Unable to initialize cam {cam_idx}')
 
 
-#        start = time.perf_counter()
         while True:
             
             for cam_idx, cap in enumerate(caps_array):
@@ -127,9 +129,6 @@ def main():
               os.remove(stop_path)
               break
 
-#            end = time.perf_counter()
-#            if end - start > 10:
-#                return
     
     except KeyboardInterrupt:
         for cap in caps_array:
