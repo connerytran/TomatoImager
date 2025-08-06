@@ -23,8 +23,8 @@ if len(sys.argv) < 2:
   sys.exit(1)
 
 foldername = sys.argv[1]
-# print(foldername)
-# input("continue?")
+print(foldername)
+input("continue?")
 
 
 
@@ -67,9 +67,10 @@ def globus_transfer(cam_idx, foldername):
     print(f"An unexpected error occurred: {e}")
 
 
-# globus_transfer()
-
 def main():
 
   for cam_idx in range(num_of_cams):
     globus_transfer(cam_idx, foldername)
+
+if __name__ == '__main__':
+  main()
