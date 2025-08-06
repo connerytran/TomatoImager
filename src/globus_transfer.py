@@ -29,7 +29,7 @@ input("continue?")
 
 
 
-def globus_transfer(cam_idx, foldername):
+def globus_transfer(cam_idx, foldername, DEST_DIR, SOURCE_DIR):
   transfer_label = f"HAWKEYE_UPLOAD_{datetime.now()}"
   foldername += "/"
   DEST_DIR += foldername + pi_id + "/" + "cam" + cam_idx + "/" # foldername/pi-1/cam1/
@@ -70,7 +70,7 @@ def globus_transfer(cam_idx, foldername):
 def main():
 
   for cam_idx in range(num_of_cams):
-    globus_transfer(cam_idx, foldername)
+    globus_transfer(cam_idx, foldername, DEST_DIR, SOURCE_DIR)
 
 if __name__ == '__main__':
   main()
