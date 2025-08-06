@@ -49,13 +49,11 @@ def take_picture(cap, cam_idx):
     global pic_num
     global photo_dir
     save_path = photo_dir
-    print(save_path)
+
     # creates the directories if not exist
     save_path += f"cam{cam_idx}/"
     if save_path:
         os.makedirs(save_path, exist_ok=True)
-
-    print(save_path)
 
     print(f"Camera {cam_idx} taking pic")
     start_time = time.perf_counter()
@@ -66,7 +64,6 @@ def take_picture(cap, cam_idx):
         end_time = time.perf_counter()
         duration = end_time - start_time
         print(f"Camera {cam_idx} pic taken in {duration} seconds")
-        # timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
         start_time = time.perf_counter()
         cv2.imwrite(f'{save_path}{timestamp}_cam{cam_idx}_{str(pic_num)}.jpg', frame) # pics/cam1/timestamp_cam1_
