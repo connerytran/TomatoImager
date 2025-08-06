@@ -10,7 +10,7 @@ load_dotenv()
 # Your Globus Endpoint IDs
 PI_ENDPOINT_ID = os.getenv('PI_ENDPOINT_ID')
 DEST_ENDPOINT_ID = os.getenv('DEST_ENDPOINT_ID')
-num_of_cams = os.getenv('num_of_cams')
+num_of_cams = int(os.getenv('num_of_cams'))
 pi_id = os.getenv('pi_id')
 
 # Paths (ensure these are correct on your Pi and destination)
