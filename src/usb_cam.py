@@ -39,7 +39,7 @@ def intialize_cam(cam_idx):
 
 
 
-def take_picture(cap, cam_idx):
+def take_picture(cap, cam_idx, photo_dir):
     """
     Given the camera, it will take a picture and save it to a folder
 
@@ -47,7 +47,6 @@ def take_picture(cap, cam_idx):
     cap (cv2 VideoCapture): capture object for taking pictures
     """
     global pic_num
-    global photo_dir
     save_path = photo_dir
 
     # creates the directories if not exist
@@ -129,7 +128,7 @@ def main():
         while True:
             
             for cam_idx, cap in enumerate(caps_array):
-                take_picture(cap, cam_idx)
+                take_picture(cap, cam_idx, photo_dir)
             
             if os.path.exists(stop_path):
               os.remove(stop_path)

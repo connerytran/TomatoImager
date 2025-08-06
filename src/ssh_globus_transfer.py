@@ -15,7 +15,11 @@ invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ']
 
 
 
+
 def run_remote_script(host, username, password, script, foldername):
+
+
+
   try:
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -49,6 +53,11 @@ def run_remote_script(host, username, password, script, foldername):
     print(f"An error occured with {host}: {e}")
     return False
   
+
+
+
+
+
 if __name__ == "__main__":
 
   ## Reads the num_of_pis from env as an integer
@@ -65,24 +74,23 @@ if __name__ == "__main__":
     if host:
       pi_hosts.append(host)
 
-  try:
 
+
+  try:
     foldername = None
-    # foldername = input("plz make an input testing\n")
     while True:
       foldername = input("Foldername CANNOT include: <, >, :, \", /, \\, |, ?, *, or spaces." \
       "\nEnter a valid foldername: ")
-      
       if not foldername:
         print("Foldername cannot be empty.")
         continue
-
       if any(char in foldername for char in invalid_chars):
         print("Foldername has invalid chars, try again.")
         continue
-
       print(f"Foldername accepted: {foldername}\n")
       break
+
+
     print(foldername)
     for host in pi_hosts:
       run_remote_script(host, pi_user, pi_password, script_path, foldername)

@@ -13,7 +13,7 @@ DEST_ENDPOINT_ID = os.getenv('DEST_ENDPOINT_ID')
 num_of_cams = int(os.getenv('num_of_cams'))
 pi_id = os.getenv('pi_id')
 
-# Paths (ensure these are correct on your Pi and destination)
+# Paths (ensure these are correct on your Pi)
 SOURCE_DIR = os.getenv('photo_dir') # Example path
 DEST_DIR = os.getenv('dest_dir')
 
@@ -21,10 +21,8 @@ DEST_DIR = os.getenv('dest_dir')
 if len(sys.argv) < 2:
   print("Error: No foldername provided.")
   sys.exit(1)
-
 foldername = sys.argv[1]
-# print(foldername)
-# input("continue?")
+
 
 
 
@@ -68,9 +66,11 @@ def globus_transfer(cam_idx, foldername, DEST_DIR, SOURCE_DIR):
 
 
 def main():
-
   for cam_idx in range(num_of_cams):
     globus_transfer(cam_idx, foldername, DEST_DIR, SOURCE_DIR)
+
+
+
 
 if __name__ == '__main__':
   main()
