@@ -22,9 +22,11 @@ def run_remote_script(host, username, password, script, foldername):
     client.connect(host, username=username, password=password)
     print(f"Connected to {host}")
 
-    stdin, stdout, stderr = client.exec_command(f"source {venv_path} && python3 {script} {foldername}")
-    # background_command = f"nohup sudo python3 {script} > /dev/null 2>&1 &"
-    # stdin, stdout, stderr = client.exec_command(background_command)
+    # stdin, stdout, stderr = client.exec_command(f"source {venv_path} && python3 {script} {foldername}")
+    # stdin, stdout, stderr = client.exec_command(f"source {venv_path} && python3 {script}")
+
+    background_command = f"source {venv_path} && python3 {script} {foldername} > /dev/null 2>&1 &"
+    stdin, stdout, stderr = client.exec_command(background_command)
     print(f"Script on {host} ran")
 
     for line in stdout:
@@ -67,21 +69,22 @@ if __name__ == "__main__":
   try:
 
     foldername = None
-    while True:
-      foldername = input("Foldername CANNOT include: <, >, :, \", /, \\, |, ?, *, or spaces." \
-      "\nEnter a valid foldername: ")
+    foldername = input("plz make an input testing\n")
+    # while True:
+    #   foldername = input("Foldername CANNOT include: <, >, :, \", /, \\, |, ?, *, or spaces." \
+    #   "\nEnter a valid foldername: ")
       
-      if not foldername:
-        print("Foldername cannot be empty.")
-        continue
+    #   if not foldername:
+    #     print("Foldername cannot be empty.")
+    #     continue
 
-      if any(char in foldername for char in invalid_chars):
-        print("Foldername has invalid chars, try again.")
-        continue
+    #   if any(char in foldername for char in invalid_chars):
+    #     print("Foldername has invalid chars, try again.")
+    #     continue
 
-      print(f"Foldername accepted: {foldername}\n")
-      break
-
+    #   print(f"Foldername accepted: {foldername}\n")
+    #   break
+    print(foldername)
     for host in pi_hosts:
       run_remote_script(host, pi_user, pi_password, script_path, foldername)
   except KeyboardInterrupt:

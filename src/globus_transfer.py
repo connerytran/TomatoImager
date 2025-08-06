@@ -23,8 +23,8 @@ if len(sys.argv) < 2:
   sys.exit(1)
 
 foldername = sys.argv[1]
-print(foldername)
-input("continue?")
+# print(foldername)
+# input("continue?")
 
 
 
