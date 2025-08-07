@@ -18,8 +18,6 @@ invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ']
 
 def run_remote_script(host, username, password, script, foldername):
 
-
-
   try:
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
