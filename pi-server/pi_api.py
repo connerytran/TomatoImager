@@ -36,7 +36,7 @@ def take_pictures():
   command = [venv_python, 'usb_cam.py'] #first arg ensures our venv is the py environment used
 
   try:
-    subprocess.run(command, cwd=src_dir_path, text=True, check=True)
+    subprocess.Popen(command, cwd=src_dir_path, stdout=subprocess.DEVNULL, text=True)
     message = {"message": "SUCCESS, taking pictures now..."}
     return jsonify(message)
   except subprocess.CalledProcessError as e:
