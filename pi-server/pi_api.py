@@ -37,7 +37,7 @@ def take_pictures():
 
   try:
     subprocess.Popen(command, cwd=src_dir_path, stdout=subprocess.DEVNULL, text=True)
-    message = {"message": "SUCCESS, taking pictures now..."}
+    message = {"message": "Taking pictures now."}
     return jsonify(message)
   except subprocess.CalledProcessError as e:
     message = {
@@ -70,7 +70,7 @@ def stop_pictures():
 
   try:
     subprocess.run(command, cwd=src_dir_path, text=True, check=True)
-    message = {"message": "SUCCESS, stopping now..."}
+    message = {"message": "Cameras stopped."}
     return jsonify(message)
   except subprocess.CalledProcessError as e:
     message = {
