@@ -13,7 +13,7 @@ pi_port = os.getenv('pi_port')
 num_of_pis = int(os.getenv('num_of_pis'))
 pi_hosts = []
 online_pis = []
-invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ']
+invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ', '.']
 
 
 # adds in all ip addresses of pis
@@ -174,8 +174,8 @@ class MainWindow(QMainWindow):
           # Handle non-200 status codes (e.g., 500 server error)
           if pi in online_pis:
             online_pis.remove(pi)
+          self.pi_status_labels[pi].setText(f"Pi {pi}: UNAVAILABLE")
 
-          self.pi_status_labels[pi].setText(f"Pi {pi}:  trippin")
           result = response.json()
           error_message = result.get('message', 'Unknown error occurred.')
           self.output_label.setText(f"ERROR: {error_message}")
@@ -183,6 +183,11 @@ class MainWindow(QMainWindow):
 
       except requests.exceptions.RequestException as e:
         # Handle network errors (Pi is off, wrong IP, etc.)
+
+        if pi in online_pis:
+          online_pis.remove(pi)
+        self.pi_status_labels[pi].setText(f"Pi {pi}: UNAVAILABLE")
+
         self.output_label.setText(f"ERROR: Could not connect to the Pi.")
         QMessageBox.critical(self, "Network Error", f"Failed to connect to the Raspberry Pi: {e}")
 
@@ -205,17 +210,25 @@ class MainWindow(QMainWindow):
   def globus_transfer(self):
     """Sends a POST request to the Raspberry Pi to stop taking pictures."""
 
-    # Gets the foldername from the user
-    foldername, ok = QInputDialog.getText(self, 'Input Dialog', 'Please enter a foldername:')
-    if ok and foldername:
-      # The user clicked OK and entered some text
-      self.output_label.setText(f"You entered: {foldername}")
-      print(f"User input: {foldername}")
-    else:
-      # The user clicked Cancel or entered nothing
-      self.output_label.setText("No folder name was entered.")
-      print("User cancelled or entered nothing.")
-      return
+    # Gets the VALID foldername from the user
+    while True:
+      foldername, ok = QInputDialog.getText(self, 'Input Dialog', 'Foldername CANNOT include: <, >, :, ., \", /, \\, |, ?, *, or spaces.' \
+        '\nPlease enter a valid foldername:')
+      
+      if any(char in foldername for char in invalid_chars):
+        QMessageBox.warning(self, "ERROR", "Invalid chars detected.")
+        continue
+
+      if ok and foldername:
+        # The user clicked OK and entered some text
+        self.output_label.setText(f"You entered: {foldername}")
+        print(f"User input: {foldername}")
+        break
+      else:
+        # The user clicked Cancel or entered nothing
+        self.output_label.setText("No folder name was entered.")
+        print("User cancelled or entered nothing.")
+        return
 
     # Payload data with the post request
     payload = {
@@ -231,7 +244,7 @@ class MainWindow(QMainWindow):
 
       try:
         # The requests.post() function sends an HTTP POST request
-        response = requests.post(url, json=payload, timeout=10) # Set a 10-second timeout
+        response = requests.post(url, json=payload, timeout=60) # Set a 10-second timeout
         
         # Check for a successful HTTP status code (200-299)
         if response.status_code == 200:
