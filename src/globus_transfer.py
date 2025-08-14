@@ -17,11 +17,18 @@ pi_id = os.getenv('pi_id')
 SOURCE_DIR = os.getenv('photo_dir') # Example path
 DEST_DIR = os.getenv('dest_dir')
 
-# Gets the foldername
-if len(sys.argv) < 2:
+# # Gets the foldername
+# if len(sys.argv) < 2:
+#   print("Error: No foldername provided.")
+#   sys.exit(1)
+# foldername = sys.argv[1]
+
+try:
+  foldername = sys.argv[1]
+except IndexError:
   print("Error: No foldername provided.")
   sys.exit(1)
-foldername = sys.argv[1]
+
 
 
 

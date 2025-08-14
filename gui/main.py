@@ -2,7 +2,7 @@
 import sys
 import requests
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, 
-                             QWidget, QVBoxLayout, QPushButton, QMessageBox)
+                             QWidget, QVBoxLayout, QPushButton, QMessageBox, QInputDialog)
 from PyQt5.QtGui import QIcon, QFont
 import os
 from dotenv import load_dotenv
@@ -13,6 +13,8 @@ pi_port = os.getenv('pi_port')
 num_of_pis = int(os.getenv('num_of_pis'))
 pi_hosts = []
 online_pis = []
+invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ']
+
 
 # adds in all ip addresses of pis
 for i in range(num_of_pis):
@@ -189,9 +191,12 @@ class MainWindow(QMainWindow):
     if flag:
       self.stop_button.setEnabled(True) # enable the button 
       self.pic_button.setEnabled(True) 
+      self.globus_button.setEnabled(True) 
     else:
       self.stop_button.setEnabled(False) # disable the button 
       self.pic_button.setEnabled(False) 
+      self.globus_button.setEnabled(False) 
+
 
 
 
@@ -200,15 +205,33 @@ class MainWindow(QMainWindow):
   def globus_transfer(self):
     """Sends a POST request to the Raspberry Pi to stop taking pictures."""
 
+    # Gets the foldername from the user
+    foldername, ok = QInputDialog.getText(self, 'Input Dialog', 'Please enter a foldername:')
+    if ok and foldername:
+      # The user clicked OK and entered some text
+      self.output_label.setText(f"You entered: {foldername}")
+      print(f"User input: {foldername}")
+    else:
+      # The user clicked Cancel or entered nothing
+      self.output_label.setText("No folder name was entered.")
+      print("User cancelled or entered nothing.")
+      return
+
+    # Payload data with the post request
+    payload = {
+      'foldername': foldername
+    }
+
+
     for pi in online_pis:
-      url = f"http://{pi}:{pi_port}/stop_pictures"
+      url = f"http://{pi}:{pi_port}/globus_transfer"
       
       self.output_label.setText("Sending request to Pi...")
       self.stop_button.setEnabled(False) # Disable the button during the request
 
       try:
         # The requests.post() function sends an HTTP POST request
-        response = requests.post(url, timeout=10) # Set a 10-second timeout
+        response = requests.post(url, json=payload, timeout=10) # Set a 10-second timeout
         
         # Check for a successful HTTP status code (200-299)
         if response.status_code == 200:

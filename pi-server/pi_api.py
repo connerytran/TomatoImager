@@ -1,5 +1,5 @@
 # import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import subprocess
 from dotenv import load_dotenv
 
@@ -92,6 +92,43 @@ def stop_pictures():
     }    
     return jsonify(message), 500
 
+
+
+# Transfers pics
+@app.route('/globus_transfer', methods=['POST'])
+def globus_transfer():
+
+  # Check if a JSON payload was sent
+  if not request.json or 'foldername' not in request.json:
+    return jsonify({"error": "Missing 'foldername' in JSON payload"}), 400
+
+  foldername = request.json.get('foldername')
+
+  command = [venv_python, 'globus_transfer.py', foldername]
+
+  try:
+    subprocess.run(command, cwd=src_dir_path, text=True, check=True, capture_output=True)
+    message = {"message": "Transfer request sent."}
+    return jsonify(message)
+  except subprocess.CalledProcessError as e:
+    message = {
+      "message": "ERROR: The script failed to execute.",
+      "status": "error",
+      "details": e.stderr
+    }
+    return jsonify(message), 500
+  except FileNotFoundError:
+    message = {
+      "message": "ERROR: File not found.",
+      "status": "error",
+    }    
+    return jsonify(message), 500
+  except Exception as e:
+    message = {
+      "message": "ERROR: Unexpected error.",
+      "status": "error",
+    }    
+    return jsonify(message), 500
 
 
 
