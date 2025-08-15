@@ -107,9 +107,12 @@ def globus_transfer():
   command = [venv_python, 'globus_transfer.py', foldername]
 
   try:
-    subprocess.run(command, cwd=src_dir_path, text=True, check=True, capture_output=True)
-    message = {"message": "Transfer request sent."}
+    result = subprocess.run(command, cwd=src_dir_path, text=True, check=True, capture_output=True)
+    output = result.stdout
+    message = {"message": "Transfer request sent.",
+               "output": output}
     return jsonify(message)
+  
   except subprocess.CalledProcessError as e:
     message = {
       "message": "ERROR: The script failed to execute.",
